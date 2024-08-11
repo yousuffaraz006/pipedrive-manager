@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from apicompany.settings import DEBUG
@@ -232,6 +233,7 @@ def testpost(request):
     context = {'post_datas': post_datas}
     return render(request, 'projectapp/testpage.html', context)
 
+@csrf_exempt
 def forms(request, form_pk):
     company_obj = Company.objects.get(url=form_pk)
     company_id = company_obj.id
