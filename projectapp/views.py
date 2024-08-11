@@ -258,12 +258,8 @@ def forms(request, form_pk):
                 newform.note = note
                 newform.reciever = company_obj.user
                 newform.save()
-                if note:
-                    savedata = name + email + deal + note
-                else:
-                    savedata = name + email + deal
                 url = link + endurl
-                Post_Data.objects.create(reciever=company_obj.user, url=url, data=savedata)
+                Post_Data.objects.create(reciever=company_obj.user, url=url, data=request.POST)
                 person_results = search_or_create_person(company_id, name, email)
                 if person_results['status'] == 'Person search & creation SUCCEEDED' or person_results['status'] == 'Person search SUCCEEDED':
                     person_id = person_results['person_id']
