@@ -17,9 +17,9 @@
                 <tbody>
                     {% for post_data in post_datas %}
                     <tr>
-                        <th style="white-space: normal;" class="">{{ forloop.counter }}</th>
-                        <td style="white-space: normal;" class="">{{ post_data.url }}</td>
-                        <td style="white-space: normal;" class="">{{ post_data.data }}</td>
+                        <th style="white-space: normal;" id="">{{ forloop.counter }}</th>
+                        <td style="white-space: normal;" id="">{{ post_data.url }}</td>
+                        <td style="white-space: normal;" id="postdata">{{ post_data.data }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
