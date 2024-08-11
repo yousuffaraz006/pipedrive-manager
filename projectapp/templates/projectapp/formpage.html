@@ -1,0 +1,52 @@
+{% extends 'projectapp/base.html' %}
+
+{% block content %}
+
+<h1>Form Page</h1>
+<div class="container m-3">
+    <form method="post">
+        {% csrf_token %}
+        {{ company_obj.user }}
+        <div class="row mt-3">
+            <div class="col-6">
+                <label for="id_name" class="mb-2"><b>Name</b></label>
+                <input type="text" id="id_name" name="name" class="form-control" required>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-6">
+                <label for="id_email" class="mb-2"><b>Email</b></label>
+                <input type="email" id="id_email" name="email" class="form-control" required>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-6">
+                <label for="id_deal" class="mb-2"><b>Deal</b></label>
+                <input type="text" id="id_deal" name="deal" class="form-control" required>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-6">
+                <label for="id_note" class="mb-2"><b>Note <small>(Optional)</small></b></label>
+                <br>
+                <textarea id="id_note" name="note" class="form-control"></textarea>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-6">
+                {% if messages %}
+                {% for message in messages %}
+                <div class="rounded-1 alert alert-info mt-3">{{ message }}</div>
+                {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-6">
+                <button type="submit" class="btn btn-outline-success form-control">Submit</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

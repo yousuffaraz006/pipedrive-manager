@@ -1,0 +1,30 @@
+body {
+    background-color: white;
+}
+
+.content {
+    height: 90vh;
+}
+
+@media (max-width: 576px) {
+    .smdevices {
+        text-align: center !important;
+    }
+    #signupcontainer {
+        box-shadow: none;
+        margin: 0;
+    }
+    #logincontainer {
+        box-shadow: none;
+        margin: 0;
+    }
+    #errorcontainer {
+        box-shadow: none;
+        margin: 0;
+    }
+    #sendmailcontainer {
+        box-shadow: none;
+        margin: 0;
+        width: 100vw;
+    }
+}

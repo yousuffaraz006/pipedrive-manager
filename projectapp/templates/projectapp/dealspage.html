@@ -1,0 +1,41 @@
+{% extends 'projectapp/base.html' %}
+
+{% block content %}
+{% include 'projectapp/header.html' %}
+
+<div class="container mt-5">
+    <form method="post">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col">
+                <button type="submit" class="btn btn-sm btn-info form-control">Refresh</button>
+            </div>
+        </div>
+    </form>
+    <div class="row">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th style="min-width: 80px;" scope="col">#</th>
+                        <th style="min-width: 150px;" scope="col">Title</th>
+                        <th style="min-width: 130px;" scope="col">Value</th>
+                        <th style="min-width: 130px;" scope="col">Client</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for deal in dealsvar %}
+                    <tr>
+                        <th style="white-space: normal;" class="">{{ forloop.counter }}</th>
+                        <td style="white-space: normal;" class="">{{ deal.title }}</td>
+                        <td style="white-space: normal;" class="">&#8377;{{ deal.value }}</td>
+                        <td style="white-space: normal;" class="">{{ deal.person }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends 'projectapp/base.html' %}
+
+{% block content %}
+{% include 'projectapp/header.html' %}
+
+<div class="container">
+    <form method="post">
+        {% csrf_token %}
+        <div class="row m-3">
+            <div class="col-12 col-sm-3 col-md-2 p-2">
+                <label for="id_baseurl" class="mb-1"><b>Base Url :</b></label>
+            </div>
+            <div class="col-12 col-sm-9 col-md-4 p-2">
+                <input type="text" id="id_baseurl" class="form-control" name="baseurl" value="{{ company_obj.baseurl }}" required>
+            </div>
+            <div class="col-12 col-sm-3 col-md-2 p-2">
+                <label for="id_apitoken" class="mb-1"><b>API Token :</b></label>
+            </div>
+            <div class="col-12 col-sm-9 col-md-4 p-2">
+                <input type="text" id="id_apitoken" class="form-control" name="apitoken" value="{{ company_obj.apitoken }}" required>
+            </div>
+            <div class="col-12 col-sm-3 col-md-2 p-2">
+                <label for="id_userid" class="mb-1"><b>User ID :</b></label>
+            </div>
+            <div class="col-12 col-sm-9 col-md-4 p-2">
+                <input type="text" id="id_userid" class="form-control" name="userid" value="{{ company_obj.userid }}" required>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <button type="submit" class="btn btn-sm btn-info form-control">Submit</button>
+            </div>
+        </div>
+    </form>
+    <div class="row my-4 text-center p-2">
+        <h4>{{ request.user.username }}'s Form Url : <a href="http://127.0.0.1:8000/forms/{{ company_obj.url }}/">Click here</a></h4>
+    </div>
+    <div class="row">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th style="min-width: 80px;" scope="col">#</th>
+                        <th style="min-width: 150px;" scope="col">Name</th>
+                        <th style="min-width: 150px;" scope="col">Email</th>
+                        <th style="min-width: 130px;" scope="col">Products</th>
+                        <th style="min-width: 130px;" scope="col">Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for form in forms %}
+                    <tr>
+                        <th style="white-space: normal;" class="">{{ forloop.counter }}</th>
+                        <td style="white-space: normal;" class="">{{ form.name }}</td>
+                        <td style="white-space: normal;" class="">{{ form.email }}</td>
+                        <td style="white-space: normal;" class="">{{ form.deal }}</td>
+                        <td style="white-space: normal;" class="">{{ form.note }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
