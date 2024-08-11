@@ -30,6 +30,16 @@ html, body{
   margin: 20px 0 10px 0;
   position: relative;
 }
+.contaner form .signuptitle:before{
+  content: '';
+  position: absolute;
+  height: 4px;
+  width: 27px;
+  left: 0px;
+  bottom: 3px;
+  border-radius: 5px;
+  background: linear-gradient(to right, #99004d 0%, #ff0080 100%);
+}
 .contaner form .logintitle:before{
   content: '';
   position: absolute;

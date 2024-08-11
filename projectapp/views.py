@@ -7,6 +7,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.http import JsonResponse
 from django.conf import settings as conf_settings
+from django.urls import reverse
 from .models import *
 from .forms import *
 import requests
@@ -72,7 +73,7 @@ def send_mail_after_registration(email, token):
     if DEBUG:
         link = '127.0.0.1:8000'
     else:
-        link = ''
+        link = 'https://yusuffrazofficial001.pythonanywhere.com/'
     subject = 'Account Verification'
     message = f'Hi {email}, please click on the link to verify your account on Desi Digilocker. {link}/verify/{token}'
     email_from = conf_settings.EMAIL_HOST_USER
@@ -226,8 +227,20 @@ def alldeals(request):
     context = {'dealsvar': dealsvar}
     return render(request, 'projectapp/dealspage.html', context)
 
+def testpost(request):
+    post_datas = Post_Data.objects.filter(reciever=request.user).order_by('-created_at')
+    context = {'post_datas': post_datas}
+    return render(request, 'projectapp/testpage.html', context)
+
 def forms(request, form_pk):
     company_obj = Company.objects.get(url=form_pk)
+    company_id = company_obj.id
+    form_pk_value = company_obj.url
+    endurl = reverse('formspage', args=[form_pk_value])
+    if DEBUG:
+        link = '127.0.0.1:8000'
+    else:
+        link = 'https://yusuffrazofficial001.pythonanywhere.com'
     if request.method == 'POST':
         name = request.POST.get('name')
         email = request.POST.get('email')
@@ -243,7 +256,12 @@ def forms(request, form_pk):
                 newform.note = note
                 newform.reciever = company_obj.user
                 newform.save()
-                company_id = company_obj.id
+                if note:
+                    savedata = name + email + deal + note
+                else:
+                    savedata = name + email + deal
+                url = link + endurl
+                Post_Data.objects.create(reciever=company_obj.user, url=url, data=savedata)
                 person_results = search_or_create_person(company_id, name, email)
                 if person_results['status'] == 'Person search & creation SUCCEEDED' or person_results['status'] == 'Person search SUCCEEDED':
                     person_id = person_results['person_id']
@@ -258,27 +276,6 @@ def forms(request, form_pk):
                                 print(n_created['status'])
                         else:
                             messages.info(request, 'All Is Well')
-                # if search_results:
-                #     print('Search results :', search_results)
-                #     person_id = search_results['data']['items'][0]['item']['id']
-                #     deal_results = create_deal(company_id, products, person_id)
-                #     if deal_results:
-                #         print('Deal Results', deal_results)
-                #         deal_id = deal_results['data']['id']
-                #         create_note(company_id, notes, deal_id)
-                # else:
-                #     print('Search results :', search_results)
-                #     person_results = create_person(company_id, name, email)
-                #     if person_results:
-                #         print('Person results :', person_results)
-                #         person_id = person_results['data']['id']
-                #         deal_results = create_deal(company_id, products, person_id)
-                #         if deal_results:
-                #             print('Deal Results', deal_results)
-                #             newnote_id = deal_results['data']['id']
-                #             create_note(company_id, notes, newnote_id)
-                #     else:
-                #         print('Person not created.')
         except Exception as e:
             print(e)
     context = {'company_obj':company_obj}

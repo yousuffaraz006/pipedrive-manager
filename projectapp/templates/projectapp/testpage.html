@@ -1,0 +1,31 @@
+{% extends 'projectapp/base.html' %}
+
+{% block content %}
+{% include 'projectapp/header.html' %}
+
+<div class="container">
+    <div class="row">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th style="min-width: 80px;" scope="col">#</th>
+                        <th style="min-width: 150px;" scope="col">URL</th>
+                        <th style="min-width: 150px;" scope="col">Compressed Data</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for post_data in post_datas %}
+                    <tr>
+                        <th style="white-space: normal;" class="">{{ forloop.counter }}</th>
+                        <td style="white-space: normal;" class="">{{ post_data.url }}</td>
+                        <td style="white-space: normal;" class="">{{ post_data.data }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

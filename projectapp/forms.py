@@ -10,3 +10,8 @@ class CompanyForm(ModelForm):
     class Meta:
         model = Company
         fields = ['apitoken', 'baseurl', 'userid']
+
+class PostDataForm(ModelForm):
+    class Meta:
+        model = Post_Data
+        fields = ['reciever', 'url', 'data']
