@@ -273,6 +273,7 @@ def forms(request, form_pk):
 @csrf_exempt
 def webhook(request, form_pk):
     company_obj = Company.objects.get(webhook_url=form_pk)
+    Post_Data.objects.create(reciever=company_obj.user, url='url', data='post_data_string', params='filtered_params')
     form_pk_value = company_obj.webhook_url
     endurl = reverse('webhookpage', args=[form_pk_value])
     print(endurl)
