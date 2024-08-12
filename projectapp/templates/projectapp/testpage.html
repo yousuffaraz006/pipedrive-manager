@@ -11,15 +11,17 @@
                     <tr>
                         <th style="min-width: 80px;" scope="col">#</th>
                         <th style="min-width: 150px;" scope="col">URL</th>
-                        <th style="min-width: 150px;" scope="col">Compressed Data</th>
+                        <th style="min-width: 100px;" scope="col">Body</th>
+                        <th style="min-width: 100px;" scope="col">Params</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for post_data in post_datas %}
                     <tr>
-                        <th style="white-space: normal;" id="">{{ forloop.counter }}</th>
-                        <td style="white-space: normal;" id="">{{ post_data.url }}</td>
-                        <td style="white-space: normal;" id="postdata">{{ post_data.data }}</td>
+                        <th style="white-space: normal;">{{ forloop.counter }}</th>
+                        <td style="white-space: normal;">{{ post_data.url }}</td>
+                        <td style="white-space: normal;">{{ post_data.data }}</td>
+                        <td style="white-space: normal;">{{ post_data.params }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>

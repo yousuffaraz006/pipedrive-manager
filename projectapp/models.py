@@ -12,7 +12,8 @@ class EmailVerification(models.Model):
     
 class Company(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    url = models.CharField(max_length=100, null=True, blank=True)
+    webhook_url = models.CharField(max_length=200, null=True, blank=True)
+    url = models.CharField(max_length=200, null=True, blank=True)
     apitoken = models.CharField(max_length=200, null=True, blank=True)
     baseurl = models.CharField(max_length=100, null=True, blank=True)
     userid = models.CharField(max_length=50, null=True, blank=True)
@@ -35,6 +36,7 @@ class Post_Data(models.Model):
     reciever = models.ForeignKey(User, on_delete=models.CASCADE)
     url = models.CharField(max_length=200, null=True, blank=True)
     data = models.CharField(max_length=200, null=True, blank=True)
+    params = models.CharField(max_length=200, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

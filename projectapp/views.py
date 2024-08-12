@@ -51,7 +51,7 @@ def signupUser(request):
                 if profile_obj.is_verified:
                     user_obj = User.objects.create_user(username, first_name=firstname, last_name=lastname, password=password1)
                     url_token = str(uuid.uuid4())
-                    company_obj = Company.objects.create(user=user_obj, url=url_token)
+                    company_obj = Company.objects.create(user=user_obj, url=url_token, webhook_url=url_token)
                     company_obj.save()
                     emailverifyform = EmailVerification.objects.filter(user=username).first()
                     emailverifyform.delete()
@@ -233,16 +233,9 @@ def testpost(request):
     context = {'post_datas': post_datas}
     return render(request, 'projectapp/testpage.html', context)
 
-@csrf_exempt
 def forms(request, form_pk):
     company_obj = Company.objects.get(url=form_pk)
     company_id = company_obj.id
-    form_pk_value = company_obj.url
-    endurl = reverse('formspage', args=[form_pk_value])
-    if DEBUG:
-        link = '127.0.0.1:8000'
-    else:
-        link = 'https://yusuffrazofficial001.pythonanywhere.com'
     if request.method == 'POST':
         name = request.POST.get('name')
         email = request.POST.get('email')
@@ -258,9 +251,6 @@ def forms(request, form_pk):
                 newform.note = note
                 newform.reciever = company_obj.user
                 newform.save()
-                url = link + endurl
-                post_data_string = ', '.join([f'{key}={value}' for key, value in request.POST.items()])
-                Post_Data.objects.create(reciever=company_obj.user, url=url, data=post_data_string)
                 person_results = search_or_create_person(company_id, name, email)
                 if person_results['status'] == 'Person search & creation SUCCEEDED' or person_results['status'] == 'Person search SUCCEEDED':
                     person_id = person_results['person_id']
@@ -279,6 +269,24 @@ def forms(request, form_pk):
             print(e)
     context = {'company_obj':company_obj}
     return render(request, 'projectapp/formpage.html', context)
+
+@csrf_exempt
+def webhook(request, form_pk):
+    company_obj = Company.objects.get(webhook_url=form_pk)
+    form_pk_value = company_obj.webhook_url
+    endurl = reverse('webhookpage', args=[form_pk_value])
+    print(endurl)
+    params = request.GET
+    filtered_params = {key: params[key] for key in params}
+    if DEBUG:
+        link = '127.0.0.1:8000'
+    else:
+        link = 'https://yusuffrazofficial001.pythonanywhere.com'
+    url = link + endurl
+    post_data_string = [{value} for value in request.POST.items()]
+    if request.method == 'POST':
+        Post_Data.objects.create(reciever=company_obj.user, url=url, data=post_data_string, params=filtered_params)
+    return JsonResponse({'status': 'SUCCESS', 'message': 'Data received and processed.', 'Filtered Params': filtered_params})
 
 def hit_pipedrive_api(company_id, endpoint, method, body={}, query=''):
     companyForm = get_object_or_404(Company, id=company_id)

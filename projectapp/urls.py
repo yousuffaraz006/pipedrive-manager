@@ -13,4 +13,5 @@ urlpatterns = [
     path('deals/', alldeals, name='dealspage'),
     path('test/', testpost, name='testpage'),
     path('forms/<str:form_pk>/', forms, name='formspage'),
+    path('webhook/<str:form_pk>/', webhook, name='webhookpage'),
 ]
