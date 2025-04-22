@@ -110,23 +110,14 @@ def loginUser(request):
             messages.info(request, 'User not found.')
             return redirect('loginpage')
         else:
-            emailverify_obj = EmailVerification.objects.filter(user=user_obj).first()
+            # emailverify_obj = EmailVerification.objects.filter(user=user_obj).first()
             user = authenticate(username=username, password=password)
             if user is None:
                 messages.info(request, 'Please enter the credentials correctly.')
                 return redirect('loginpage')
             else:
-                if not emailverify_obj.is_verified:
-                    auth_token = str(uuid.uuid4())
-                    emailverify_obj.auth_token = auth_token
-                    emailverify_obj.save()
-                    email_obj = User.objects.get(username=username).username
-                    send_mail_after_registration(email_obj, auth_token)
-                    messages.info(request, 'Your account is not verified. Please check your mailbox for "Account Verification" mail and click on the link to verify your account. We have sent a new "Account Verification" mail.')
-                    return redirect('loginpage')
-                else:
-                    login(request, user)
-                    return redirect('homepage')                
+                login(request, user)
+                return redirect('homepage')                
     else:
         return render(request, 'projectapp/loginpg.html')
 
@@ -204,7 +195,7 @@ def alldeals(request):
         data = response.json()
         deals = data.get('data', [])
         for deal in deals:
-            person = deal['person_id']['email'][0]['value'] if deal['person_id']['email'] else ''
+            person = deal['person_id']['email'][0]['value'] if deal['person_id']['email'] else '' 
             title = deal['title']
             deal_exist = Deal.objects.filter(person=person, title=title).first()
             if deal_exist:
@@ -285,9 +276,11 @@ def webhook(request, form_pk):
         link = 'https://yusuffrazofficial001.pythonanywhere.com'
     url = link + endurl
     post_data_string = [{value} for value in request.POST.items()]
+    print(post_data_string)
     if request.method == 'POST':
         Post_Data.objects.create(reciever=company_obj.user, url=url, data=post_data_string, params=filtered_params)
-    return JsonResponse({'status': 'SUCCESS', 'message': 'Data received and processed.', 'Filtered Params': filtered_params})
+    context = {}
+    return render(request, 'projectapp/webhook.html', context)
 
 def hit_pipedrive_api(company_id, endpoint, method, body={}, query=''):
     companyForm = get_object_or_404(Company, id=company_id)

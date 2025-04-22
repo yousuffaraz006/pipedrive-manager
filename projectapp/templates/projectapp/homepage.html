@@ -11,19 +11,22 @@
                 <label for="id_baseurl" class="mb-1"><b>Base Url :</b></label>
             </div>
             <div class="col-12 col-sm-9 col-md-4 p-2">
-                <input type="text" id="id_baseurl" class="form-control" name="baseurl" value="{{ company_obj.baseurl }}" required>
+                <input type="password" id="id_baseurl" class="form-control" name="baseurl" value="{{ company_obj.baseurl }}"
+                    required>
             </div>
             <div class="col-12 col-sm-3 col-md-2 p-2">
                 <label for="id_apitoken" class="mb-1"><b>API Token :</b></label>
             </div>
             <div class="col-12 col-sm-9 col-md-4 p-2">
-                <input type="text" id="id_apitoken" class="form-control" name="apitoken" value="{{ company_obj.apitoken }}" required>
+                <input type="password" id="id_apitoken" class="form-control" name="apitoken"
+                    value="{{ company_obj.apitoken }}" required>
             </div>
             <div class="col-12 col-sm-3 col-md-2 p-2">
                 <label for="id_userid" class="mb-1"><b>User ID :</b></label>
             </div>
             <div class="col-12 col-sm-9 col-md-4 p-2">
-                <input type="text" id="id_userid" class="form-control" name="userid" value="{{ company_obj.userid }}" required>
+                <input type="password" id="id_userid" class="form-control" name="userid" value="{{ company_obj.userid }}"
+                    required>
             </div>
         </div>
         <div class="row">
@@ -33,7 +36,12 @@
         </div>
     </form>
     <div class="row my-4 text-center p-2">
-        <h4>{{ request.user.username }}'s Form Url : <a href="http://127.0.0.1:8000/forms/{{ company_obj.url }}/">Click here</a></h4>
+        <h4>{{ request.user.first_name }} {{ request.user.last_name }}'s Webhook Form Url : <input style="display: none;"
+                id="myCopyable" value="127.0.0.1:8000/webhook/{{ company_obj.url }}/"/> <button
+                onclick="myCopyFunction()">Copy</button></h4>
+    </div>
+    <div class="row my-4 text-center p-2">
+        <h4>Create Page : <a href="http://127.0.0.1:8000/forms/{{ company_obj.url }}/">Click here</a></h4>
     </div>
     <div class="row">
         <div class="table-responsive">
@@ -62,5 +70,9 @@
         </div>
     </div>
 </div>
+
+{% endblock %}
+
+{% block script %}
 
 {% endblock %}

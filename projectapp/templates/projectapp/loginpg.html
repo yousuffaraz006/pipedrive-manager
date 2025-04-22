@@ -2,13 +2,69 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login to API Company</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'css/styles1.css' %}">
+    <style>
+        /* Custom tooltip styles */
+        [data-tooltip] {
+            position: relative;
+        }
+
+        [data-tooltip]::before,
+        [data-tooltip]::after {
+            position: absolute;
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.2s ease-in-out;
+        }
+
+        [data-tooltip]::before {
+            content: attr(data-tooltip);
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            line-height: 1.5;
+            white-space: pre-wrap;
+            z-index: 1;
+        }
+
+        [data-tooltip]::after {
+            content: "";
+            border-style: solid;
+            border-width: 5px 5px 0 5px;
+            border-color: #333 transparent transparent transparent;
+            z-index: 1;
+        }
+
+        [data-tooltip]:hover::before,
+        [data-tooltip]:hover::after {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Positioning the tooltip */
+        [data-tooltip]::before {
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        [data-tooltip]::after {
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-bottom: 5px;
+        }
+    </style>
 </head>
 
 <body>
@@ -17,7 +73,7 @@
             {% csrf_token %}
             <div class="title logintitle">Login</div>
             <div class="input-box underline">
-                <input type="email" placeholder="Enter Your Email" name="username" required>
+                <input type="text" placeholder="Enter Your Username" name="username" required>
                 <div class="underline"></div>
             </div>
             <div class="input-box">
@@ -36,6 +92,10 @@
         <div class="option">or Login With Google</div>
         <div class="google">
             <a href="{% url 'social:begin' 'google-oauth2' %}"><i class="fab fa-google"></i>Login With Google</a>
+        </div>
+        <div class="text-center fw-bolder user-select-none" style="font-weight: bolder;" data-tooltip="demouser@gmail.com
+pass - awdrjilp">
+            Try demo account!
         </div>
         <div class="option">Create an Account? <a href="{% url 'sendmailpage' %}">Sign up</a></div>
     </div>
