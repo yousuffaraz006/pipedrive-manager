@@ -74,7 +74,7 @@ def send_mail_after_registration(email, token):
     if DEBUG:
         link = '127.0.0.1:8000'
     else:
-        link = 'https://yusuffrazofficial001.pythonanywhere.com/'
+        link = 'https://pipedrivemanager.pythonanywhere.com/'
     subject = 'Account Verification'
     message = f'Hi {email}, please click on the link to verify your account on Desi Digilocker. {link}/verify/{token}'
     email_from = conf_settings.EMAIL_HOST_USER
@@ -273,7 +273,7 @@ def webhook(request, form_pk):
     if DEBUG:
         link = '127.0.0.1:8000'
     else:
-        link = 'https://yusuffrazofficial001.pythonanywhere.com'
+        link = 'https://pipedrivemanager.pythonanywhere.com/'
     url = link + endurl
     post_data_string = [{value} for value in request.POST.items()]
     print(post_data_string)
